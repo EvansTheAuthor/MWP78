@@ -1,0 +1,186 @@
+
+<?php?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/X_logo_2023_original.svg">
+</head>
+<body>
+    <div class="container">
+        <div class="left-con">
+            <div class="left-weighted">
+                <img src="images/X_logo_2023_original.svg" alt="X" id="logo">
+
+                <div class="home">
+                    <img src="images/icons8-home.svg" alt="home" id="home">
+                    <h6 id="beranda">Beranda</h6>
+                </div>
+
+                <div class="search">
+                    <img src="images/icons8-search.svg" alt="search" id="search">
+                    <h6 id="beranda">Jelajahi</h6>
+                </div>
+
+                <div class="notification">
+                    <img src="images/icons8-bell.svg" alt="notif" id="notif">
+                    <h6 id="beranda">Notifikasi</h6>
+                </div>
+
+                <div class="message">
+                    <img src="images/mail-svgrepo-com.svg" alt="msg" id="message">
+                    <h6 id="beranda">Pesan</h6>
+                </div>
+
+                <div class="grok">
+                    <img src="images/grok.svg" alt="ai" id="grok">
+                    <h6 id="beranda">Grok</h6>
+                </div>
+
+                <div class="community">
+                    <img src="images/people-svgrepo-com.svg" alt="commun" id="commun">
+                    <h6 id="beranda">Komunitas</h6>
+                </div>
+
+                <div class="premium">
+                    <img src="images/thunder-svgrepo-com.svg" alt="org" id="org">
+                    <h6 id="beranda">Organisasi Terverifikasi</h6>
+                </div>
+
+                <a href="">
+                    <div class="profile">
+                        <img src="images/profile-round-1342-svgrepo-com.svg" alt="profil" id="profile">
+                        <h6 id="beranda">Profil</h6>
+                    </div>
+                </a>
+
+                <div class="other">
+                    <img src="images/three-dots-svgrepo-com.svg" alt="more" id="more">
+                    <h6 id="beranda">Lainnya</h6>
+                </div><br>
+
+                <div>
+                    <button class="postBtn">
+                        <h4 id="postTxt">Posting</h4>
+                    </button>
+                </div><br><br><br>
+
+                <div>
+                    <img src="images/newtwitterpp.jpg" alt="Profile" id="photo">
+                    <div>
+                        <h4 id="name"<?php echo $_SESSION['username']; ?></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mid-con">
+            <div class="content"></div>
+        </div>
+
+        <div class="right-con">
+            <div class="searchBar">
+                <img src="images/icons8-search.svg" id="find">
+                <input type="text" placeholder="Cari" class="InputSearch">
+            </div>
+
+            <div class="reccomend" id="reccomended">
+                <h1 id="you">Anda mungkin suka</h1>
+                
+                <div class="profile1">
+                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <div class="profileTxt">
+                        <h4 id="nameProfile">User 1</h4>
+                        <h4 id="unameProfile">@user01</h4>
+                    </div>
+                    <button class="follow">Ikuti</button>
+                </div>
+
+                <div class="profile2">
+                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <div class="profileTxt">
+                        <h4 id="nameProfile">User 2</h4>
+                        <h4 id="unameProfile">@user02</h4>
+                    </div>
+                    <button class="follow">Ikuti</button>
+                </div>
+
+                <div class="profile3">
+                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <div class="profileTxt">
+                        <h4 id="nameProfile">User 3</h4>
+                        <h4 id="unameProfile">@user03</h4>
+                    </div>
+                    <button class="follow">Ikuti</button>
+                </div>
+
+                <div class="trend-item" id="more-like">
+                    <h5>Tampilkan lebih banyak</h5>
+                </div>
+            </div>
+
+            <div class="hot=takes">
+                <h1 id="hot-topics">Sedang hangat dibicarakan</h1>
+                <div class="trend-item">
+                    <span class="trend-category">Sedang tren dalam topik Indonesia</span>
+                    <p class="trend-name">China</p>
+                    <span class="trend-count">829 rb postingan</span>
+                    <span class="more-options">•••</span>
+                </div>
+
+                <div class="trend-item">
+                    <span class="trend-category">Sedang tren dalam topik Indonesia</span>
+                    <p class="trend-name">spog</p>
+                    <span class="trend-count">19,1 rb postingan</span>
+                    <span class="more-options">•••</span>
+                </div>
+
+                <div class="trend-item">
+                    <span class="trend-category">Sedang tren dalam topik Indonesia</span>
+                    <p class="trend-name">Cuma Rp14</p>
+                    <span class="trend-count">14,1 rb postingan</span>
+                    <span class="more-options">•••</span>
+                </div>
+
+                <div class="trend-item">
+                    <span class="trend-category">Sedang tren dalam topik Indonesia</span>
+                    <p class="trend-name">Celana</p>
+                    <span class="trend-count">5.722 postingan</span>
+                    <span class="more-options">•••</span>
+                </div>
+
+                <div class="trend-item" id="more-trend">
+                    <h5>Tampilkan lebih banyak</h5>
+                </div>
+            </div><br>
+
+            <div class="right-bottom">
+                <a href="#">Persyaratan Layanan</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Kebijakan Penggunaan Kuki</a>
+                <a href="#">Aksesibilitas</a>
+                <a href="#">Informasi Iklan</a>
+                <a href="#">Lainnya •••</a>
+                <span>© 2025 X Corp.</span>
+            </div>
+        </div>
+
+        <div class="grok-btn">
+            <img src="images/grok.svg" alt="GROK">
+            <span>GROK</span>
+        </div>
+
+        <div class="message-btn">
+            <span class="msg-tittle">Pesan</span>
+            <div class="msg-icon">
+                <i class="fas fa-envelope"></i>
+                <i class="fas fa-chevron-up"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
