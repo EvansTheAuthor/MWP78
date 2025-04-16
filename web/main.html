@@ -69,17 +69,66 @@
                     </button>
                 </div><br><br><br>
 
-                <div>
+                <div class="left-profile">
                     <img src="images/newtwitterpp.jpg" alt="Profile" id="photo">
-                    <div>
-                        <h4 id="name"<?php echo $_SESSION['username']; ?></h4>
+                    <div class="profile-text">
+                        <h4 id="name">Zeyn</h4>
+                        <h4 id="username">@zeyn.maaz</h4>
                     </div>
+                    <img src="images/three-dots-svgrepo-com.svg" class="elipsis" id="btn-logout">
                 </div>
             </div>
         </div>
 
         <div class="mid-con">
-            <div class="content"></div>
+            <div class="content">
+                <?php
+                include 'koneksi.php';
+
+                $query = pg_query($conn, "SELECT * FROM postingan ORDER BY tanggal_post DESC");
+
+                while ($post = pg_fetch_assoc($query)) {
+                    $id_post = $post['id'];
+                    $username = htmlspecialchars($post['username']);
+                    $isi = nl2br(htmlspecialchars($post['isi']));
+                    $tanggal = $post['tanggal_post'];
+
+                    $replies = pg_query_params($conn, "SELECT * FROM reply WHERE id_postingan = $1 ORDER BY tanggal_reply ASC", array($id_post));
+                    $jumlah_reply = pg_num_rows($replies);
+
+                    echo '<div class="postingan">';
+                    echo '  <div class="post-kiri">';
+                    echo '      <img src="aset/default_profile_400x400.png" alt="profile">';
+                    echo '  </div>';
+                    echo '  <div class="post-kanan">';
+                    echo "      <h3>$username</h3>";
+                    echo "      <p>$isi</p>";
+
+                    echo '      <div class="postingan-reply">';
+                    echo '          <div class="postingan-reply-jumlah">';
+                    echo '              <img src="aset/comment-1-svgrepo-com.svg" class="btn-reply" 
+            data-id="' . $id_post . '" 
+            data-username="' . $username . '" 
+            data-isi="' . htmlspecialchars($post['isi']) . '">';
+                    echo $jumlah_reply > 0 ? '<p>' . $jumlah_reply . '</p>' : '<p></p>';
+                    echo '          </div>';
+                    echo "          <small>$tanggal</small>";
+                    echo '      </div>';
+
+                    if ($jumlah_reply > 0) {
+                        while ($rep = pg_fetch_assoc($replies)) {
+                            echo '<div class="balasan">';
+                            echo '<strong>' . htmlspecialchars($rep['username']) . '</strong>: ';
+                            echo nl2br(htmlspecialchars($rep['isi']));
+                            echo '</div>';
+                        }
+                    }
+
+                    echo '  </div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
         </div>
 
         <div class="right-con">
@@ -182,5 +231,173 @@
             </div>
         </div>
     </div>
+
+    <!-- modals -->
+     <div class="modal-post">
+        <div class="post">
+            <div class="post-top">
+                <img src="images/close-svgrepo-com.svg" alt="" class="close" id="close">
+                <h6>Draf</h6>
+            </div>
+
+            <div class="post-form">
+                <img src="images/newtwitterpp.jpg" alt="profile">
+                <textarea placeholder="Apa yang sedang terjadi?"></textarea>
+            </div>
+
+            <div class="post-bottom">
+                <button>Posting</button>
+            </div>
+        </div>
+     </div>
+
+     <!-- modals reply -->
+      <div id="modal-reply">
+        <div class="reply">
+            <div class="reply-top">
+                <img src="images/close-svgrepo-com.svg" alt="" class="close" id="close">
+                <h6>Draf</h6>
+            </div>
+
+            <div class="reply-preview"></div>
+
+            <div class="reply-form">
+                <img src="images/newtwitterpp.jpg" alt="profile">
+                <textarea placeholder="Posting balasan Anda"></textarea>
+            </div>
+        </div>
+      </div>
+
+      <!-- notifikasi -->
+       <div id="toast" class="toast">Postingan berhasil!</div>
+
+       <script>
+            $(function () {
+            $("#postingBtn").click(function () {
+                $("#modal-post").fadeIn().css("display", "flex");
+            })
+
+            $("#close").click(function () {
+                $("#modal-post").fadeOut();
+            })
+        })
+
+        // posting
+        document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.querySelector("#modal-post textarea");
+            const postBtn = document.querySelector(".post-bottom button");
+
+            textarea.addEventListener('input', () => {
+                const isKosong = textarea.value.trim() === '';
+                postBtn.disabled = isKosong;
+
+                if (isKosong) {
+                    textarea.style.backgroundColor = '';
+                    textarea.style.color = '';
+                    postBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+                } else {
+                    postBtn.style.backgroundColor = 'black';
+                }
+            });
+
+            postBtn.addEventListener("click", function () {
+                const isi = textarea.value.trim();
+
+                if (isi !== "") {
+                    fetch("post.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: `isi=${encodeURIComponent(isi)}`
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            if (data === 'sukses') {
+                                textarea.value = "";
+                                postBtn.disabled = true;
+                                postBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+                                document.getElementById("close").click();
+                                showToast("Postingan berhasil dikirim!");
+                            } else {
+                                showToast("Gagal menyimpan postingan.");
+                            }
+                        });
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById("toast");
+                toast.textContent = message;
+                toast.classList.add("show");
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+        });
+
+        // reply
+        document.addEventListener("DOMContentLoaded", function () {
+            const modalReply = document.getElementById("modal-reply");
+            const replyTextarea = modalReply.querySelector("textarea");
+            const replyPreview = modalReply.querySelector(".reply-preview");
+
+            document.querySelector(".konten").addEventListener("click", function (e) {
+                if (e.target.classList.contains("btn-reply")) {
+                    const username = e.target.getAttribute("data-username");
+                    const isi = e.target.getAttribute("data-isi");
+                    const id = e.target.getAttribute("data-id");
+
+                    modalReply.setAttribute("data-id", id);
+                    replyPreview.innerHTML = `<div class="preview"><strong>${username}</strong>: ${isi}</div>`;
+                    replyTextarea.value = "";
+                    modalReply.style.display = "flex";
+                }
+            });
+
+            modalReply.querySelector(".close").addEventListener("click", function () {
+                modalReply.style.display = "none";
+                replyTextarea.value = "";
+                replyPreview.innerHTML = "";
+            });
+
+            modalReply.querySelector("button").addEventListener("click", function () {
+                const isi = replyTextarea.value.trim();
+                const id = modalReply.getAttribute("data-id");
+
+                if (isi !== "") {
+                    fetch("reply.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: `isi=${encodeURIComponent(isi)}&id=${id}`
+                    })
+                        .then(res => res.text())
+                        .then(data => {
+                            if (data === "sukses") {
+                                location.reload();
+                            } else {
+                                alert("Gagal mengirim reply.");
+                            }
+                        });
+                } else {
+                    alert("Balasan tidak boleh kosong!");
+                }
+            });
+        });
+
+        document.getElementById("btn-logout").addEventListener("click", function (e) {
+            const popup = document.getElementById("logout-popup");
+            popup.style.display = (popup.style.display === "flex") ? "none" : "flex";
+
+            e.stopPropagation();
+        });
+
+        document.addEventListener("click", function (e) {
+            const popup = document.getElementById("logout-popup");
+            const btn = document.getElementById("btn-logout");
+
+            if (!popup.contains(e.target) && !btn.contains(e.target)) {
+                popup.style.display = "none";
+            }
+        });
+       </script>
 </body>
 </html>
