@@ -1,5 +1,7 @@
 
-<?php?>
+<?php
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,49 +20,49 @@
 
                 <div class="home">
                     <img src="images/icons8-home.svg" alt="home" id="home">
-                    <h6 id="beranda">Beranda</h6>
+                    <h6 class="sidebar-text">Beranda</h6>
                 </div>
 
                 <div class="search">
                     <img src="images/icons8-search.svg" alt="search" id="search">
-                    <h6 id="beranda">Jelajahi</h6>
+                    <h6 class="sidebar-text">Jelajahi</h6>
                 </div>
 
                 <div class="notification">
                     <img src="images/icons8-bell.svg" alt="notif" id="notif">
-                    <h6 id="beranda">Notifikasi</h6>
+                    <h6 class="sidebar-text">Notifikasi</h6>
                 </div>
 
                 <div class="message">
                     <img src="images/mail-svgrepo-com.svg" alt="msg" id="message">
-                    <h6 id="beranda">Pesan</h6>
+                    <h6 class="sidebar-text">Pesan</h6>
                 </div>
 
                 <div class="grok">
                     <img src="images/grok.svg" alt="ai" id="grok">
-                    <h6 id="beranda">Grok</h6>
+                    <h6 class="sidebar-text">Grok</h6>
                 </div>
 
                 <div class="community">
                     <img src="images/people-svgrepo-com.svg" alt="commun" id="commun">
-                    <h6 id="beranda">Komunitas</h6>
+                    <h6 class="sidebar-text">Komunitas</h6>
                 </div>
 
                 <div class="premium">
                     <img src="images/thunder-svgrepo-com.svg" alt="org" id="org">
-                    <h6 id="beranda">Organisasi Terverifikasi</h6>
+                    <h6 class="sidebar-text">Organisasi Terverifikasi</h6>
                 </div>
 
                 <a href="">
                     <div class="profile">
                         <img src="images/profile-round-1342-svgrepo-com.svg" alt="profil" id="profile">
-                        <h6 id="beranda">Profil</h6>
+                        <h6 class="sidebar-text">Profil</h6>
                     </div>
                 </a>
 
                 <div class="other">
                     <img src="images/three-dots-svgrepo-com.svg" alt="more" id="more">
-                    <h6 id="beranda">Lainnya</h6>
+                    <h6 class="sidebar-text">Lainnya</h6>
                 </div><br>
 
                 <div>
@@ -70,10 +72,10 @@
                 </div><br><br><br>
 
                 <div class="left-profile">
-                    <img src="images/newtwitterpp.jpg" alt="Profile" id="photo">
+                    <img src="images/newtwitterpp.jpg" alt="Profile" class="left-photos">
                     <div class="profile-text">
-                        <h4 id="name">Zeyn</h4>
-                        <h4 id="username">@zeyn.maaz</h4>
+                        <h4 id="name"><?php echo $_SESSION['username']; ?></h4>
+                        <h4 id="username">@<?php echo $_SESSION['username']; ?></h4>
                     </div>
                     <img src="images/three-dots-svgrepo-com.svg" class="elipsis" id="btn-logout">
                 </div>
@@ -141,7 +143,7 @@
                 <h1 id="you">Anda mungkin suka</h1>
                 
                 <div class="profile1">
-                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <img src="images/default_profile_400x400.png" alt="pp" class="left-photos">
                     <div class="profileTxt">
                         <h4 id="nameProfile">User 1</h4>
                         <h4 id="unameProfile">@user01</h4>
@@ -150,7 +152,7 @@
                 </div>
 
                 <div class="profile2">
-                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <img src="images/default_profile_400x400.png" alt="pp" class="left-photos">
                     <div class="profileTxt">
                         <h4 id="nameProfile">User 2</h4>
                         <h4 id="unameProfile">@user02</h4>
@@ -159,7 +161,7 @@
                 </div>
 
                 <div class="profile3">
-                    <img src="images/default_profile_400x400.png" alt="pp" id="photo">
+                    <img src="images/default_profile_400x400.png" alt="pp" class="left-photos">
                     <div class="profileTxt">
                         <h4 id="nameProfile">User 3</h4>
                         <h4 id="unameProfile">@user03</h4>
@@ -172,7 +174,7 @@
                 </div>
             </div>
 
-            <div class="hot=takes">
+            <div class="hot-takes">
                 <h1 id="hot-topics">Sedang hangat dibicarakan</h1>
                 <div class="trend-item">
                     <span class="trend-category">Sedang tren dalam topik Indonesia</span>
