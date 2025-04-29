@@ -25,5 +25,4 @@ if (!empty($content) && !empty($postId)) {
 } else {
     echo 'empty';
 }
-
 ?>
